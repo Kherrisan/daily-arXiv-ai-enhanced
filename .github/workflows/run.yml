@@ -41,7 +41,14 @@ jobs:
         export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
         export OPENAI_BASE_URL=${{ secrets.OPENAI_BASE_URL }}
         export TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
-        export LANGUAGE="${{ vars.LANGUAGE }}"
+        normalize_language() {
+          case "${1,,}" in
+            english) echo "English" ;;
+            chinese) echo "Chinese" ;;
+            *) echo "$1" ;;
+          esac
+        }
+        export LANGUAGE="$(normalize_language "${{ vars.LANGUAGE }}")"
         export CATEGORIES="${{ vars.CATEGORIES }}"
         export MODEL_NAME="${{ vars.MODEL_NAME }}"
         
@@ -107,7 +114,14 @@ jobs:
         cd ai
         export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
         export OPENAI_BASE_URL=${{ secrets.OPENAI_BASE_URL }}
-        export LANGUAGE="${{ vars.LANGUAGE }}"
+        normalize_language() {
+          case "${1,,}" in
+            english) echo "English" ;;
+            chinese) echo "Chinese" ;;
+            *) echo "$1" ;;
+          esac
+        }
+        export LANGUAGE="$(normalize_language "${{ vars.LANGUAGE }}")"
         export MODEL_NAME="${{ vars.MODEL_NAME }}"
         
         python enhance.py --data ../data/${today}.jsonl
